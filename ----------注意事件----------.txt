@@ -1,0 +1,382 @@
+上传git 失败 在config文件中修改URL中 的地址为git 要传的文件的URL
+
+上传阿里云时如果找不到指向文件需要看一下json中对应的两个文件的url是否正确
+
+覆盖文件时需要注意文件的名字是否正确
+
+打开vue文件需要输入npm 有install安装 run serve //build
+
+上传文件本地改变 网页没有改变时需要注意缓存.html?rad="+uuid())
+function uuid() {
+	var s = [];
+	var hexDigits = "0123456789abcdef";
+	for (var i = 0; i < 36; i++) {
+		s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+	}
+	s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+	s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+	s[8] = s[13] = s[18] = s[23] = "-";
+
+	var uuid = s.join("");
+	return uuid;
+}
+
+小程序跳转另一个页面标题时需要在
+json文件中输入"navigationBarTitleText": "" 
+在js页面中输入success: function(res){
+      wx.setNavigationBarTitle({
+        title:res.返回值.
+      })
+
+
+使页面固定不动使用：
+.page{
+  width: 100%;
+  height: 100%;
+}
+page>.pageall{
+  width:100%;
+  height: 100%;
+  position: fixed;
+  overflow-x: hidden;
+}
+
+小程序换行使用 ：
+white-space:pre-line;
+还有：flex-wrap:wrap;
+  word-wrap:break-word;方法
+
+让按钮固定在页面底部浮动保持不动：
+  position: fixed;
+  bottom:30rpx;（值越小代表离最底部越近）
+
+小程序跳转页面需要在view中写bindtap的跳转事件然后在JS中写
+   事件名字(e){
+  wx.navigateTo({
+    url: '../../pages/show/index?driverSchoolNo='+e.currentTarget.dataset.driverschoolno
+  })
+},  
+
+号码最长位数maxlength="数值"
+让图片浮动在最顶部在css中写：
+  z-index:1;
+
+
+VUE绑定事件语法v-on： 和@ methods方法中输入在v-on和@中绑定的事件名字：function（）{方法}
+button value内容
+在data中定义的对象在function中可以用this直接拿到
+
+v-show 布尔值 true显示 false隐藏
+
+v-bind：src=“对象名”简写 ：src图片链接
+
+JS
+科学计数var y = 123e5;      // 12300000
+             var z = 123e-5;     // 0.00123
+
+作用域链输出是最近的一级（就近原则）
+（运算符）
+属性或方法键值对 key :value
+调用对象的属性 我们采取 对象名。属性名
+函数必须加小括号调用
+
+
+日历随页面滚动：
+              :getCalendarContainer="
+                triggerNode => {
+                  return triggerNode.parentNode || document.body;
+                }"
+              :dropdownStyle="{  overflow: 'auto' }"
+
+select随着页面滚动：
+             :getPopupContainer="
+                triggerNode => {
+                  return triggerNode.parentNode || document.body;
+                }"
+              :dropdownStyle="{  overflow: 'auto' }"
+
+ <div class="mask_popup" >
+        <a-popconfirm 
+          :title="popTipTitle"
+          ok-text="审核通过"
+          cancel-text="审核不通过"
+          @confirm="confirm"
+          @cancel="cancel" :visible="isConfirmVisible"
+        >
+        </a-popconfirm>
+  
+    </div>
+    <div class="mask_popup">
+        <a-popconfirm 
+          :title="endPopTipTitle"
+          ok-text="确认"
+          cancel-text="取消"
+          @confirm="endConfirm"
+          @cancel="endCancel" :visible="isEndConfirmVisible"
+        >
+        </a-popconfirm>
+    </div>
+
+
+
+
+parseInt转换成整型
+Number()和parseInt()一样，都可以用来进行数字的转换
+区别在于，当转换的内容包含非数字的时候，Number() 会返回NaN(Not a Number)
+parseInt() 要看情况，如果以数字开头，就会返回开头的合法数字部分，如果以非数字开头，则返回NaN
+
+
+VUE设置路由两步：1.在router(index.js中)设置import （xxx） from XX/XX/（创建文件路径名字）
+                              2.在router(index.js中)设置  {
+                                                                         path: '/systemmanagement/schoolmanagement',
+                                                                         name: 'schoolmanagement',
+                                                                         component: Schoolmanagement,(在上面写的import)
+                                                                         meta: {
+                                                                                requireAuth: true,
+                                                                                keepAlive: true,
+                                                                                title: '学校管理'
+                                                                                   }
+                                                                           },
+配置接口先要去apiConfig.js中配置一下 XXXX(data) {
+                                                              return api.post(urls.XXXX, data)
+                                                            }
+然后urls（index.js）写一下 XXX: root + '/接口/XXX',
+请求数组的值在div中定义:data-source="schoollist"数组 ，在data中定义一遍 请求接口时用getlistAll() {
+      ApiConfig.listAll({})
+        .then((res) => {
+          if (res.data.code == 200) {
+            this.schoollist = res.data.data;
+          } else {
+            this.$message.error(res.data.message);
+          }
+        })
+        .catch((error) => {
+          this.$message.error(this.CommonConst.errorMsg);
+        });
+    },
+
+接口中表单数据 x-www-form-urlencoded(不能)
+                        application/json raw可以很多串
+
+
+
+
+
+判断是否可以下拉<a-form-model-item label="学校" prop="schoolNo" ref="schoolNo" v-if="this.loginSchoolNo ==''">
+
+                                  <a-select v-model="formData.schoolNo" placeholder="请选择学校">
+                                 <a-select-option
+                                      :value="item.schoolNo"
+                                       v-for="(item, index) in optionsSchoolList"
+                                            :key="index"
+                                         >{{ item.schoolName }}
+                                    </a-select-option>
+                                     </a-select>
+                                    </a-form-model-item>
+在data 中定义optionsSchoolList  在return中loginSchoolNo   判断 
+ this.loginSchoolNo=Helper.get("loginInfo").schoolNo;
+    if(this.loginSchoolNo==null)
+    this.loginSchoolNo="";
+
+methods中写方法  data(){中定义数组，字符串} 如果要用在ApiConfig中的接口 需要用import引用这个文件
+在div中可以给一个控件创建一个方法 在methods中写方法  在表单<a-form-model-item>中 v-model是双向绑定的数据XX.值
+接口成功
+跳路由在接口成功的代码中跳 if (res.data.code == 200) {
+                                                     this.visible = false;
+                                                     this.$message.success(res.data.message);
+                                                     this.$router.push({
+                                                         path: "/systemmanagement/schoolmanagement",
+                                                           });
+                                                      this.pageObject.pageNum = 1;
+                                                      this.resetForm();
+                                                 } else {
+                                                      this.$message.error(res.data.message);
+                                                   }
+
+
+新增成功后在if中 this.XXX();直接存在
+
+
+接口地址在(src/config)index.js和vue.config.js中配置
+
+改接口后 需要重启一遍 npm run serve
+
+返回  XX事件（）{
+              this.$router.go(-1);
+              }//返回上一层
+
+
+
+添加选项弹窗 点击确定 <form  rules="方法名" >在data中写规则
+                                   <form-item prop="规则名"
+
+
+<a model 中
+：model（对象）
+：rules 对model中的对象进行表单验证规则 用法 data中  {XX[{ 
+                                                         required:true(必填项)
+                                                         trigger:"blur"(失去焦点时提示)
+                                                      }] }
+
+
+
+接口地址在src / config / index.js 中设置 和 api / index.js中设置
+
+
+手动调接口postman在body的raw中写回调的参数
+
+在Header中的key和value中写content-Type的数据类型 一般是application/json（json串和表单类型
+）
+
+
+        <a-button @click="handleCancel" v-if="!isShowQrCode">取消</a-button>
+        <a-button type="primary" @click="handleOk" v-if="!isShowQrCode"> 确定 </a-button>
+       判断显示二维码图片不能操作
+
+       <a-model>中  ：disabled="isShowQrCode" 二维码出来后不能修改数量价格 
+
+微信扫码支付 vue       
+需要在npm中安装  npm install qrcodejs2 -S  
+
+<div id="qrcode" ref="qrcode" style="display:flex;justify-content:center">//一个装载后台传入二维码图片div
+
+在 import引入一下  import QRCode from 'qrcodejs2';
+初始化函数，return // isShowQrCode:false,
+清除div中的图片 
+     this.isShowQrCode=false;
+      //清除对应的原先图片
+      if(this.$refs.qrcode!=undefined)
+      {
+        this.$refs.qrcode.innerHTML="";
+      }
+
+ 此处方法
+  showModel()
+    {
+      this.isShowQrCode=true;
+      //弹出支付的二维码
+      ApiConfig.getSchoolPayQRCodeInfo({   //接口
+              orderNo:this.orderNo,            //编号
+              amt:this.totalFee                    //金额
+      })
+      .then((res) => {
+        if (res.data.code == 200) {    //接口获取成功
+          console.log(res.data);
+          //接口返回图片，或者给一个链接客户端生成二维码
+          if(res.data.data.code_url!=null){      //判断
+              this.qrcode = new QRCode(this.$refs.qrcode, {
+                width: 100, // 二维码宽度
+                height: 100, // 二维码高度
+                text: res.data.data.code_url,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            //调用轮询，请求服务端（暂不用服务端推送）,超时时间2分钟，5s查询一次
+            //res.data.data.rechargeNo
+
+          }else{
+            this.isShowQrCode=false;
+            console.log(res.data);
+            this.$message.success("请求微信支付失败");
+            this.visible = false;
+          }
+        } else {
+          this.isShowQrCode=false;
+          this.$message.error(res.data.msg);
+        }
+      })
+      .catch((error) => {
+        this.isShowQrCode=false;
+        this.$message.error(this.CommonConst.errorMsg);
+      });
+    },
+
+在需要调定时器的方法中：this.startTimer();
+定时器 //
+
+//启动定时器
+    startTimer() {
+      let timer = setInterval(() => {
+        this.execGetStatus(timer);
+      }, 3000); //间隔请求时间
+    },
+    //定时器间隔执行的任务
+    execGetStatus(timer) {
+      setTimeout(() => {
+        this.timerCount = this.timerCount + 1;
+        // 这里ajax 请求的代码片段和判断是否停止定时器
+        var result = this.getPayResultInfo(this.orderNo);
+        // 如需要停止定时器，只需加入以下：
+        if (result || !this.isShowQrCode || this.timerCount >= 60) {
+          clearInterval(timer);
+          console.log("定时器清除");
+          //跳转学员管理界面
+          this.$router.push({
+            path: "/driverschool/traineemanagement",
+          });
+        } else {
+          console.log("定时器执行中");
+        }
+      }, 0);
+    },
+
+一个订单接口
+
+
+disabled='{{app.indexOf(restList,item.isToday)?true:flase}}'
+
+
+
+
+小程序微信支付（跳支付界面）
+ api.traineePay({
+          method: 'POST', //请求接口
+          data: {
+            driverSchoolNo:e.currentTarget.dataset.driverschoolno,
+            traineeNo:app.TraineeNo,
+            openId:app.openId,
+            deviceNo:e.currentTarget.dataset.device,//设备编号
+            bookTrainDate:e.currentTarget.dataset.istoday,//练习日期
+            bookTimeZoneNo:e.currentTarget.dataset.timezoneno,
+            payAmt:e.currentTarget.dataset.paymoney,
+            accessToken:app.globalData.accessToken,
+          },
+          success: function(res){
+              console.log("请求接口成功，获得prepare_id");//预付订单号
+              console.log(res);
+              //请求微信支付接口
+              if(res!=null&&res.data!=null&&res.data.code ==200){
+                wx.requestPayment({
+                  timeStamp: res.data.data.timeStamp,
+                  nonceStr: res.data.data.nonceStr,                 
+                  package: res.data.data.package,                 
+                  signType: 'RSA',                 
+                  paySign: res.data.data.paySign,                
+                  success: function (event) {
+                    console.log(event);
+                    wx.showToast({              
+                    title: '支付成功',                
+                    icon: 'success',               
+                    duration: 3000                
+                    });         
+                    wx.switchTab({
+                    url: "../../pages/index/index" 
+                      })        
+                  },                
+                  fail: function (error) {
+                    console.log("支付失败")                
+                    console.log(error)                 
+                  },                
+                  complete: function () {         
+                    console.log("pay complete")                 
+                  }                 
+                })   
+              }else{
+                wx.showToast({              
+                  title: '订单生成失败',                               
+                  duration: 3000                
+                  });      
+              }
+             }) 
+          }
+        });
